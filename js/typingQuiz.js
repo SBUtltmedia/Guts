@@ -52,45 +52,44 @@ var typingQuiz = function(){
         staticHud(beginText);
 
         window.addEventListener("mousedown", mouseDown);
+        window.addEventListener("keypress", keyDown);
+    }
+    
+    function mouseDown() {
+        if (gameActive && !selectorLock) {
+            if(currentSelection != 1){
+                if(usedElements[currentSelection] == null){
+                    clearInterval(highlightInterval);
+                    beginIRCQuiz(currentSelection, listElements[currentSelection]);
+                    usedElements[currentSelection] = 1;
 
-        window.addEventListener("keypress", function(event){
-            if(event.keyCode === 13){
-                if(checkInput($("#textInput").val(), quizTarget)){
-                    clearInterval(quizInterval);
-                    clearInterval(scoreInterval);
-                    updateHud(earnedScoreText1 + calculatePossibleScore() + earnedScoreText2);
-                    calculateScore();
-                    updateScoreDisplay();
-                    document.getElementById(targetIndex).textContent = quizTarget;
-                    highlightInterval = setInterval(highlight, 1000/60);
+                    setTimeout(function(){
+                        $("#textInput").get(0).focus();
+                    }, 1);
+                 }
+             }
+         }
+     }
+        
+    function keyDown(event){
+        if(event.keyCode === 13){
+            if(checkInput($("#textInput").val(), quizTarget)){
+                clearInterval(quizInterval);
+                clearInterval(scoreInterval);
+                updateHud(earnedScoreText1 + calculatePossibleScore() + earnedScoreText2);
+                calculateScore();
+                updateScoreDisplay();
+                document.getElementById(targetIndex).textContent = quizTarget;
+                highlightInterval = setInterval(highlight, 1000/60);
 
-                    checkAvailableChoices();
-                    selectorLock = false;
-                } else{
-                    updateHud(wrongText);
-                    takeDamage();
-                }
-
-                $("#textInput").val("");
+                checkAvailableChoices();
+                selectorLock = false;
+            } else{
+                updateHud(wrongText);
+                takeDamage();
             }
-        })
 
-        function mouseDown() {
-            if (gameActive && !selectorLock) {
-                if(currentSelection != 1){
-                    if(usedElements[currentSelection] == null){
-                        clearInterval(highlightInterval);
-                        beginIRCQuiz(currentSelection, listElements[currentSelection]);
-                        usedElements[currentSelection] = 1;
-
-                        setTimeout(function(){
-                            $("#textInput").get(0).focus();
-                        }, 1);
-                    } else {
-
-                    }
-                }
-            }
+            $("#textInput").val("");
         }
     }
 
@@ -357,16 +356,25 @@ var typingQuiz = function(){
 
     var endGame = function () {
         gameActive = false;
+        timeRemaining = 0;
+        totalTime = 0;
+        
         clearInterval(hudInterval);
         clearInterval(quizInterval);
         clearInterval(scoreInterval);
-        staticHud(finalScoreText + score);
+        clearInterval(highlightInterval);
+        highlightInterval = setInterval(highlight, 1000/60);
         $('#playAgainBox').css("visibility", "visible");
         $('#playAgainBox').css("pointer-events", "all");
+//        window.removeEventListener("mousedown", mouseDown);
+//        window.removeEventListener("keypress", keyDown);
+        
+        staticHud(finalScoreText + score);
     }
 
     var resetGame = function () {
         gameActive = true;
+        selectorLock = false;
         health = 3;
         score = 0;
         usedElements = [];
@@ -379,13 +387,15 @@ var typingQuiz = function(){
         clearInterval(heartFlasher1);
         clearInterval(heartFlasher2);
         clearInterval(heartFlasher3);
+        clearInterval(highlightInterval);
+        highlightInterval = setInterval(highlight, 1000/60);
         
         $("#playAgainBox").css("visibility", "hidden");
         $('#playAgainBox').css("pointer-events", "none");
         $("#heart1").attr("src", "../Heart.svg");
         $("#heart2").attr("src", "../Heart.svg");
-        $("#heart3").attr("src", "../Heart.svg");
-
+        $("#heart3").attr("src", "../Heart.svg");        
+        
         updateScoreDisplay();
         staticHud(beginText);
     }
