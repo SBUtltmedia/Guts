@@ -29,7 +29,7 @@ $(function () {
     
     var typing = new typingQuiz();
     var selector = new selectorQuiz();
-    selector.startGame();
+    typing.startGame();
 });
 
 function setupHover(i) {

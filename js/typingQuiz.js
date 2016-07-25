@@ -3,6 +3,7 @@ var typingQuiz = function(){
     var beginText = "Please make a selection.";
     var correctText = "Correct!";
     var wrongText = "Wrong!";
+    var tooSlowText = "Too Slow!";
     var possibleScoreText = "Possible points: ";
     var earnedScoreText1 = "You earned ";
     var earnedScoreText2 = " points!";
@@ -116,13 +117,22 @@ var typingQuiz = function(){
     }
 
     var calculateScore = function(){
-        score += Math.round((timeRemaining/totalTime)*100);
+        var val = Math.round((timeRemaining/totalTime)*100);
+        if(val >= 0){
+            score += val;
+        }
         totalTime = 0;
         timeRemaining = 0;
     }
 
     var calculatePossibleScore = function(){
-        return Math.round((timeRemaining/totalTime)*100);
+        var val = Math.round((timeRemaining/totalTime)*100);
+        if (val >= 0){
+            return val;
+        }
+        else{
+            return 0;
+        }
     }
 
     var beginIRCQuiz = function(index, string){
@@ -203,7 +213,9 @@ var typingQuiz = function(){
                         clearInterval(quizInterval);
                         clearInterval(scoreInterval);
                         highlightInterval = setInterval(highlight, 1000/60);
-
+                        
+                        updateHud(tooSlowText);
+                        
                         takeDamage();
                     }
                 }
