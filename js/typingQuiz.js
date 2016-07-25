@@ -209,6 +209,8 @@ var typingQuiz = function(){
                 if(selectorLock){
                     if(charIndex == -1){
                         selectorLock = false;
+                        totalTime = 0;
+                        timeRemaining = 0;
                         clearInterval(quizInterval);
                         clearInterval(scoreInterval);
                         highlightInterval = setInterval(highlight, 1000/60);
@@ -366,8 +368,8 @@ var typingQuiz = function(){
         highlightInterval = setInterval(highlight, 1000/60);
         $('#playAgainBox').css("visibility", "visible");
         $('#playAgainBox').css("pointer-events", "all");
-//        window.removeEventListener("mousedown", mouseDown);
-//        window.removeEventListener("keypress", keyDown);
+        window.removeEventListener("mousedown", mouseDown);
+        window.removeEventListener("keypress", keyDown);
         
         staticHud(finalScoreText + score);
     }
@@ -395,6 +397,9 @@ var typingQuiz = function(){
         $("#heart1").attr("src", "../Heart.svg");
         $("#heart2").attr("src", "../Heart.svg");
         $("#heart3").attr("src", "../Heart.svg");        
+        
+        window.addEventListener("mousedown", mouseDown);
+        window.addEventListener("keypress", keyDown);
         
         updateScoreDisplay();
         staticHud(beginText);
