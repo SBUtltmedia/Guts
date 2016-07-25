@@ -29,7 +29,7 @@ $(function () {
         popmousefunctions()
     }
     highlightInterval = setInterval("highlight()", 1000 / 60);
-    startGame();
+    typingQuiz();
 });
 
 function setupHover(i) {
@@ -81,5 +81,3 @@ function popmousefunctions() {
         }
     }
 }
-
-//GAME CODE
