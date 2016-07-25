@@ -1,5 +1,5 @@
 var typingQuiz = function(){
-    //CONST
+    //CONSTANTS
     var beginText = "Please make a selection.";
     var correctText = "Correct!";
     var wrongText = "Wrong!";
@@ -34,8 +34,12 @@ var typingQuiz = function(){
     var timeRemaining = 0;
     var usedCharArray = new Array();
 
-    var startGame = function () {
-        //var listElementsIndex = 0;
+    this.startGame = function () {
+        
+        $("#playAgainBox").click(function(){
+            resetGame();
+        })
+        
         $('#van li').each(function (i, obj) {
             if (i != 0) {
                 listElements[i + 1] = obj.textContent;
@@ -341,6 +345,9 @@ var typingQuiz = function(){
 
     var endGame = function () {
         gameActive = false;
+        clearInterval(hudInterval);
+        clearInterval(quizInterval);
+        clearInterval(scoreInterval);
         staticHud(finalScoreText + score);
         $('#playAgainBox').css("visibility", "visible");
         $('#playAgainBox').css("pointer-events", "all");
@@ -357,6 +364,10 @@ var typingQuiz = function(){
             }
         });
 
+        clearInterval(heartFlasher1);
+        clearInterval(heartFlasher2);
+        clearInterval(heartFlasher3);
+        
         $("#playAgainBox").css("visibility", "hidden");
         $('#playAgainBox').css("pointer-events", "none");
         $("#heart1").attr("src", "../Heart.svg");
@@ -436,6 +447,4 @@ var typingQuiz = function(){
     var getRandomInt = function (min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
-    
-    startGame();
 }

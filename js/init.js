@@ -12,9 +12,6 @@ $(function () {
     $("#playAgainBox").mouseleave(function(){
         $("#playAgainBox").css("background-color", "#3a3a3a");
     });
-    $("#playAgainBox").click(function(){
-        resetGame();
-    })
     
     resizeWindow();
     vanRoot = document.getElementById("van");
@@ -29,7 +26,10 @@ $(function () {
         popmousefunctions()
     }
     highlightInterval = setInterval("highlight()", 1000 / 60);
-    typingQuiz();
+    
+    var typing = new typingQuiz();
+    var selector = new selectorQuiz();
+    selector.startGame();
 });
 
 function setupHover(i) {
