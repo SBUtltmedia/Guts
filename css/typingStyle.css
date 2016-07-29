@@ -30,6 +30,10 @@ ul {
     transform-origin: 0 0;
 }
 
+#quizDisplay, #quizDisplayBox{
+    visibility: hidden;
+}
+
 #hudDisplayBox{
     text-align: center;
     line-height: 200%;

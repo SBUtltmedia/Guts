@@ -1,41 +1,62 @@
+//CONSTANTS
+var beginText = "Please make a selection.";
+var correctText = "Correct!";
+var wrongText = "Wrong!";
+var tooSlowText = "Too Slow!";
+var possibleScoreText = "Possible points: ";
+var earnedScoreText1 = "You earned ";
+var earnedScoreText2 = " points!";
+var guessText = "Guess: ";
+//var gameOverText = "G A M E  O ウ E R! GAME  OウER! GAME OVER! GAME OVER! GAME OVER! GAME OVER!";
+var gameOverText = "Game Over!";
+var finalScoreText = "Your final score is: ";
+var listElements = [];
+var usedElements = [];
+
+//GLOBALS
+var gameActive = true;
+var health = 3;
+var score = 0;
+var heartFlasher1;
+var heartFlasher2;
+var heartFlasher3;
+var hudInterval;
+var quizInterval;
+var scoreInterval;
+var selectorLock;
+var quizTarget;
+var targetIndex;
+
+var totalTime = 0;
+var timeRemaining = 0;
+var usedCharArray = new Array();
+
 var typingQuiz = function(){
-    //CONSTANTS
-    var beginText = "Please make a selection.";
-    var correctText = "Correct!";
-    var wrongText = "Wrong!";
-    var tooSlowText = "Too Slow!";
-    var possibleScoreText = "Possible points: ";
-    var earnedScoreText1 = "You earned ";
-    var earnedScoreText2 = " points!";
-    var guessText = "Guess: ";
-    //var gameOverText = "G A M E  O ウ E R! GAME  OウER! GAME OVER! GAME OVER! GAME OVER! GAME OVER!";
-    var gameOverText = "Game Over!";
-    var finalScoreText = "Your final score is: ";
-
-    //GLOBALS
-    var gameActive = true;
-    var health = 3;
-    var score = 0;
-    var listElements = [];
-    var usedElements = [];
-    var heartFlasher1;
-    var heartFlasher2;
-    var heartFlasher3;
-    var hudInterval;
-    var quizInterval;
-    var scoreInterval;
-    var selectorLock;
-    var quizTarget;
-    var targetIndex;
-
-    //Hud update strings
-
-
-    var totalTime = 0;
-    var timeRemaining = 0;
-    var usedCharArray = new Array();
-
     this.startGame = function () {
+        //CONSTANTS
+        beginText = "Please make a selection.";
+        correctText = "Correct!";
+        wrongText = "Wrong!";
+        tooSlowText = "Too Slow!";
+        possibleScoreText = "Possible points: ";
+        earnedScoreText1 = "You earned ";
+        earnedScoreText2 = " points!";
+        guessText = "Guess: ";
+        gameOverText = "Game Over!";
+        finalScoreText = "Your final score is: ";
+        listElements = [];
+        usedElements = [];
+
+        gameActive = true;
+        health = 3;
+        score = 0;
+
+        totalTime = 0;
+        timeRemaining = 0;
+        usedCharArray = new Array();
+        
+        currentGame = "typing";
+        document.getElementById("css").href = "css/typingStyle.css";
         
         $("#playAgainBox").click(function(){
             resetGame();
@@ -51,46 +72,7 @@ var typingQuiz = function(){
         updateScoreDisplay();
         staticHud(beginText);
 
-        window.addEventListener("mousedown", mouseDown);
-        window.addEventListener("keypress", keyDown);
-    }
-    
-    function mouseDown() {
-        if (gameActive && !selectorLock) {
-            if(currentSelection != 1){
-                if(usedElements[currentSelection] == null){
-                    clearInterval(highlightInterval);
-                    beginIRCQuiz(currentSelection, listElements[currentSelection]);
-                    usedElements[currentSelection] = 1;
-
-                    setTimeout(function(){
-                        $("#textInput").get(0).focus();
-                    }, 1);
-                 }
-             }
-         }
-     }
         
-    function keyDown(event){
-        if(event.keyCode === 13){
-            if(checkInput($("#textInput").val(), quizTarget)){
-                clearInterval(quizInterval);
-                clearInterval(scoreInterval);
-                updateHud(earnedScoreText1 + calculatePossibleScore() + earnedScoreText2);
-                calculateScore();
-                updateScoreDisplay();
-                document.getElementById(targetIndex).textContent = quizTarget;
-                highlightInterval = setInterval(highlight, 1000/60);
-
-                checkAvailableChoices();
-                selectorLock = false;
-            } else{
-                updateHud(wrongText);
-                takeDamage();
-            }
-
-            $("#textInput").val("");
-        }
     }
 
     var checkAvailableChoices = function(){
@@ -134,7 +116,7 @@ var typingQuiz = function(){
         }
     }
 
-    var beginIRCQuiz = function(index, string){
+    this.beginIRCQuiz = function(index, string){
         selectorLock = true;
         usedCharArray = new Array();
 
@@ -293,18 +275,18 @@ var typingQuiz = function(){
         if(heartIndex === 3){
             heartFlasher3 = setInterval(function(){
                 if (i < 4){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                 }
                 else if(i >= 15){
                     i=0;
                     ++j;
                 }
                 else{
-                    $('#heart' + heartIndex).attr("src", "../Heart.svg");
+                    $('#heart' + heartIndex).attr("src", "Heart.svg");
                 }
 
                 if(j === 7){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                     clearInterval(heartFlasher3);
                 }
 
@@ -314,18 +296,18 @@ var typingQuiz = function(){
         else if (heartIndex === 2){
             heartFlasher2 = setInterval(function(){
                 if (i < 4){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                 }
                 else if(i >= 15){
                     i=0;
                     ++j;
                 }
                 else{
-                    $('#heart' + heartIndex).attr("src", "../Heart.svg");
+                    $('#heart' + heartIndex).attr("src", "Heart.svg");
                 }
 
                 if(j === 7){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                     clearInterval(heartFlasher2);
                 }
 
@@ -335,18 +317,18 @@ var typingQuiz = function(){
         else{
             heartFlasher1 = setInterval(function(){
                 if (i < 4){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                 }
                 else if(i >= 15){
                     i=0;
                     ++j;
                 }
                 else{
-                    $('#heart' + heartIndex).attr("src", "../Heart.svg");
+                    $('#heart' + heartIndex).attr("src", "Heart.svg");
                 }
 
                 if(j === 7){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                     clearInterval(heartFlasher1);
                 }
 
@@ -368,10 +350,28 @@ var typingQuiz = function(){
         highlightInterval = setInterval(highlight, 1000/60);
         $('#playAgainBox').css("visibility", "visible");
         $('#playAgainBox').css("pointer-events", "all");
-        window.removeEventListener("mousedown", mouseDown);
-        window.removeEventListener("keypress", keyDown);
         
         staticHud(finalScoreText + score);
+    }
+    
+    this.changeGame = function (){
+        gameActive = false;
+        timeRemaining = 0;
+        totalTime = 0;
+        
+        clearInterval(hudInterval);
+        clearInterval(quizInterval);
+        clearInterval(scoreInterval);
+        clearInterval(highlightInterval);
+        highlightInterval = setInterval(highlight, 1000/60);
+
+        $("#playAgainBox").css("visibility", "hidden");
+        
+        $('#van li').each(function (i, obj) {
+            if (i != 0) {
+                obj.textContent = listElements[i+1];
+            }
+        });
     }
 
     var resetGame = function () {
@@ -394,12 +394,9 @@ var typingQuiz = function(){
         
         $("#playAgainBox").css("visibility", "hidden");
         $('#playAgainBox').css("pointer-events", "none");
-        $("#heart1").attr("src", "../Heart.svg");
-        $("#heart2").attr("src", "../Heart.svg");
-        $("#heart3").attr("src", "../Heart.svg");        
-        
-        window.addEventListener("mousedown", mouseDown);
-        window.addEventListener("keypress", keyDown);
+        $("#heart1").attr("src", "Heart.svg");
+        $("#heart2").attr("src", "Heart.svg");
+        $("#heart3").attr("src", "Heart.svg");        
         
         updateScoreDisplay();
         staticHud(beginText);

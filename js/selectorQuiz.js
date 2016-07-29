@@ -1,27 +1,42 @@
-  function selectorQuiz(){
-    //GAME CODE
-    var gameActive = true;
-    var health = 3;
-    var score = 0;
-    var currentTarget;
-    var listElements = [];
-    var usedElements = [];
-    var heartFlasher1;
-    var heartFlasher2;
-    var heartFlasher3;
-    var hudInterval;
+//GAME CODE
+var gameActive = true;
+var health = 3;
+var score = 0;
+var currentTarget;
+var heartFlasher1;
+var heartFlasher2;
+var heartFlasher3;
+var hudInterval;
+var listElements = [];
+var usedElements = [];
 
-    //Hud update strings
-    var beginText = "Please make a selection.";
-    var correctText = "Correct!";
-    var wrongText = "Wrong!";
-    var currentTargetText = "Your current target is: "
-    //var gameOverText = "G A M E  O ウ E R!";
-    var gameOverText = "Game Over!";
-    var finalScoreText = "Your final score is: ";
+//Hud update strings
+var beginText = "Please make a selection.";
+var correctText = "Correct!";
+var wrongText = "Wrong!";
+var currentTargetText = "Your current target is: ";
+//var gameOverText = "G A M E  O ウ E R!";
+var gameOverText = "Game Over!";
+var finalScoreText = "Your final score is: ";
 
-  this.startGame = function () {
+function selectorQuiz(){    
+    this.startGame = function () {
+        gameActive = true;
+        health = 3;
+        score = 0;
+        listElements = [];
+        usedElements = [];
+
+        beginText = "Please make a selection.";
+        correctText = "Correct!";
+        wrongText = "Wrong!";
+        currentTargetText = "Your current target is: ";
+        gameOverText = "Game Over!";
+        finalScoreText = "Your final score is: ";
         
+        currentGame = "selector";
+        document.getElementById("css").href = "css/selectorStyle.css";
+      
         $("#playAgainBox").click(function(){
             resetGame();
         })
@@ -36,33 +51,7 @@
         currentTarget = getRandomInt(2, listElements.length);
         updateQuizDisplay(currentTargetText + listElements[currentTarget]);
         updateScoreDisplay();
-        staticHud(beginText);
-
-        window.addEventListener("mousedown", mouseDown);
-
-        function mouseDown() {
-            if (gameActive) {
-                if(currentSelection != 1){
-                    if (listElements[currentSelection] == listElements[currentTarget]) {
-                        updateHud(correctText);
-                        ++score;
-
-                        document.getElementById(currentSelection).textContent = listElements[currentSelection];
-                        usedElements[currentTarget] = 1;
-                        chooseNextTarget();
-                        updateScoreDisplay();
-                    } else {
-                        updateHud(wrongText);
-                        beginHeartFlash(health);
-                        --health;
-                    }
-
-                    if(health <= 0){
-                        endGame();
-                    }
-                }
-            }
-        }
+        staticHud(beginText);   
     }
 
     var chooseNextTarget = function () {
@@ -93,18 +82,18 @@
         if(heartIndex === 3){
             heartFlasher3 = setInterval(function(){
                 if (i < 4){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                 }
                 else if(i >= 15){
                     i=0;
                     ++j;
                 }
                 else{
-                    $('#heart' + heartIndex).attr("src", "../Heart.svg");
+                    $('#heart' + heartIndex).attr("src", "Heart.svg");
                 }
 
                 if(j === 7){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                     clearInterval(heartFlasher3);
                 }
 
@@ -114,18 +103,18 @@
         else if (heartIndex === 2){
             heartFlasher2 = setInterval(function(){
                 if (i < 4){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                 }
                 else if(i >= 15){
                     i=0;
                     ++j;
                 }
                 else{
-                    $('#heart' + heartIndex).attr("src", "../Heart.svg");
+                    $('#heart' + heartIndex).attr("src", "Heart.svg");
                 }
 
                 if(j === 7){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                     clearInterval(heartFlasher2);
                 }
 
@@ -135,18 +124,18 @@
         else{
             heartFlasher1 = setInterval(function(){
                 if (i < 4){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                 }
                 else if(i >= 15){
                     i=0;
                     ++j;
                 }
                 else{
-                    $('#heart' + heartIndex).attr("src", "../Heart.svg");
+                    $('#heart' + heartIndex).attr("src", "Heart.svg");
                 }
 
                 if(j === 7){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                     clearInterval(heartFlasher1);
                 }
 
@@ -165,6 +154,27 @@
         $('#playAgainBox').css("pointer-events", "all");
     }
 
+    this.changeGame = function (){
+        gameActive = false;
+        health = 3;
+        score = 0;
+        currentTarget = null;
+        usedElements = [];
+        clearInterval(hudInterval);
+        clearInterval(heartFlasher1);
+        clearInterval(heartFlasher2);
+        clearInterval(heartFlasher3);
+        
+        $("#playAgainBox").css("visibility", "hidden");
+        
+        $('#van li').each(function (i, obj) {
+            if (i != 0) {
+                obj.textContent = listElements[i+1];
+            }
+        });
+        listElements = [];
+    }
+    
     var resetGame = function () {
         gameActive = true;
         health = 3;
@@ -183,9 +193,9 @@
         
         $("#playAgainBox").css("visibility", "hidden");
         $('#playAgainBox').css("pointer-events", "none");
-        $("#heart1").attr("src", "../Heart.svg");
-        $("#heart2").attr("src", "../Heart.svg");
-        $("#heart3").attr("src", "../Heart.svg");
+        $("#heart1").attr("src", "Heart.svg");
+        $("#heart2").attr("src", "Heart.svg");
+        $("#heart3").attr("src", "Heart.svg");
 
         currentTarget = getRandomInt(2, listElements.length);
         updateQuizDisplay(currentTargetText + listElements[currentTarget]);
@@ -202,7 +212,7 @@
     }
 
     //Sends a message to be displayed on the hud, goes away after two seconds
-    var updateHud = function (inputString) {
+    this.updateHud = function (inputString) {
         clearInterval(hudInterval);
 
         var i = 0;

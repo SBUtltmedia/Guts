@@ -1,3 +1,7 @@
+var currentGame;
+var typing;
+var selector;
+
 $(function () {
     // Font resize
     var sections = $("#van").children().length;
@@ -26,11 +30,96 @@ $(function () {
         popmousefunctions()
     }
     highlightInterval = setInterval("highlight()", 1000 / 60);
+    setInterval(function(){
+        console.log(gameActive);
+    }, 1000/4);
     
-    var typing = new typingQuiz();
-    var selector = new selectorQuiz();
+    window.addEventListener("mousedown", mouseDown);
+    window.addEventListener("keypress", keyDown);
+    
+    typing = new typingQuiz();
+    selector = new selectorQuiz();
     typing.startGame();
 });
+
+function mouseDown() {
+    if(currentGame == "typing"){
+        if (gameActive && !selectorLock) {
+            if(currentSelection != 1){
+                if(usedElements[currentSelection] == null){
+                    clearInterval(highlightInterval);
+                    beginIRCQuiz(currentSelection, listElements[currentSelection]);
+                    usedElements[currentSelection] = 1;
+
+                    setTimeout(function(){
+                        $("#textInput").get(0).focus();
+                    }, 1);
+                 }
+             }
+         }
+     }
+    else if(currentGame == "selector"){
+        console.log(gameActive);
+        if (gameActive) {
+            if(currentSelection != 1){
+                console.log(listElements[currentSelection]);
+                    if (listElements[currentSelection] == listElements[currentTarget]) {
+                        updateHud(correctText);
+                        ++score;
+
+                        document.getElementById(currentSelection).textContent =     listElements[currentSelection];
+                        usedElements[currentTarget] = 1;
+                        chooseNextTarget();
+                        updateScoreDisplay();
+                    } 
+                  else {
+                      updateHud(wrongText);
+                      beginHeartFlash(health);
+                      --health;
+                  }
+                  
+                    if(health <= 0){
+                      endGame();
+                  }
+              }
+          }
+    }   
+}
+
+function keyDown(event){
+    if(currentGame == "typing"){
+        if(event.keyCode === 13){
+            if(checkInput($("#textInput").val(), quizTarget)){
+                clearInterval(quizInterval);
+                clearInterval(scoreInterval);
+                updateHud(earnedScoreText1 + calculatePossibleScore() + earnedScoreText2);
+                calculateScore();
+                updateScoreDisplay();
+                document.getElementById(targetIndex).textContent = quizTarget;
+                highlightInterval = setInterval(highlight, 1000/60);
+
+                checkAvailableChoices();
+                selectorLock = false;
+            } else{
+                updateHud(wrongText);
+                takeDamage();
+            }
+
+            $("#textInput").val("");
+        }
+    }
+}
+
+function changeGame(){
+    if(currentGame == "typing"){
+        typing.changeGame();
+        selector.startGame();
+    }
+    else{
+        selector.changeGame();
+        typing.startGame();
+    }
+}
 
 function setupHover(i) {
     $("#" + i).mouseenter(function () {
