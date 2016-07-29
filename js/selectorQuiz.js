@@ -54,7 +54,7 @@ function selectorQuiz(){
         staticHud(beginText);   
     }
 
-    var chooseNextTarget = function () {
+    this.chooseNextTarget = function () {
         for (var i = 2; i < listElements.length; i++) {
             if (usedElements[i] != 1) {
                 break;
@@ -74,7 +74,7 @@ function selectorQuiz(){
         }
     }
 
-    var beginHeartFlash = function(heartIndex){
+    this.beginHeartFlash = function(heartIndex){
         var i = 0;
         var j = 0;
 
@@ -208,6 +208,10 @@ function selectorQuiz(){
     }
 
     var updateScoreDisplay = function () {
+        $('#scoreDisplay').html("Score: " + score);
+    }
+    
+    this.updateScoreDisplay = function () {
         $('#scoreDisplay').html("Score: " + score);
     }
 

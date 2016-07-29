@@ -75,7 +75,7 @@ var typingQuiz = function(){
         
     }
 
-    var checkAvailableChoices = function(){
+    this.checkAvailableChoices = function(){
         for (var i = 2; i < listElements.length; i++) {
             if (usedElements[i] != 1) {
                 break;
@@ -86,7 +86,7 @@ var typingQuiz = function(){
         }
     }
 
-    var checkInput = function(input, target){
+    this.checkInput = function(input, target){
         input = input.toLowerCase();
         target = target.toLowerCase();
         if (input == target){
@@ -97,7 +97,7 @@ var typingQuiz = function(){
         }
     }
 
-    var calculateScore = function(){
+    this.calculateScore = function(){
         var val = Math.round((timeRemaining/totalTime)*100);
         if(val >= 0){
             score += val;
@@ -107,6 +107,16 @@ var typingQuiz = function(){
     }
 
     var calculatePossibleScore = function(){
+        var val = Math.round((timeRemaining/totalTime)*100);
+        if (val >= 0){
+            return val;
+        }
+        else{
+            return 0;
+        }
+    }
+    
+    this.calculatePossibleScore = function(){
         var val = Math.round((timeRemaining/totalTime)*100);
         if (val >= 0){
             return val;
@@ -241,6 +251,15 @@ var typingQuiz = function(){
     }
 
     var takeDamage = function(){
+        beginHeartFlash(health);
+        --health;
+
+        if(health <= 0){
+            endGame();
+        }
+    }
+    
+    this.takeDamage = function(){
         beginHeartFlash(health);
         --health;
 
@@ -409,9 +428,45 @@ var typingQuiz = function(){
     var updateScoreDisplay = function () {
         $('#scoreDisplay').html("Score: " + score);
     }
+    
+    this.updateScoreDisplay = function () {
+        $('#scoreDisplay').html("Score: " + score);
+    }
 
     //Sends a message to be displayed on the hud, goes away after two seconds
     var updateHud = function (inputString) {
+        clearInterval(hudInterval);
+
+        var i = 0;
+        var displayString = "";
+        var waitTime = 20;
+        var passTime = 10;
+        hudInterval = setInterval(function(){
+            if(waitTime === 20){
+                displayString += inputString.charAt(0);
+                $('#hud').html(displayString);
+                inputString = inputString.substr(1, inputString.length);
+            }
+
+            if(inputString == ""){
+                --waitTime;
+            }
+
+            if(waitTime <= 0){
+                displayString = displayString.substr(0, displayString.length-1);
+                $('#hud').html(displayString);
+
+                if(displayString == ""){
+                    if(passTime <= 0){
+                        staticHud(beginText);
+                    }
+                    --passTime;
+                }
+            }
+        }, 1000/15);
+    }
+    
+    this.updateHud = function (inputString) {
         clearInterval(hudInterval);
 
         var i = 0;
