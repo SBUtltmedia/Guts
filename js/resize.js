@@ -113,16 +113,29 @@ function resizeWindow() {
     
     //Resize rightnav
     var targetWidth = stageWidth*0.4;
-    var targetHeight = stageHeight*0.534333;
-    var navWidth = "300px";
-    var navHeight = "283px";
+    var targetHeight = stageHeight*0.533333;
+    var aspectRatio = targetWidth/targetHeight;
+
     var img = document.getElementById('picture'); 
 //    var widthRatio = targetWidth / parseInt(navWidth.split("px")[0]);
 //    var heightRatio = targetHeight / parseInt(navHeight.split("px")[0]);
-    var widthRatio = targetWidth / img.clientWidth;
-    var heightRatio = targetHeight / img.clientHeight;
+//    var widthRatio = targetWidth / img.naturalWidth;
+//    var heightRatio = targetHeight / img.naturalHeight;
+    var diff = img.naturalWidth - img.naturalHeight;
+
+    var percent;
+    if(diff < 0){
+        percent = (img.naturalWidth+diff)/img.naturalWidth;
+        percent *= 100;
+        $("#imagemap").css("width", percent+"%");
+    }
+    else{
+        percent = (img.naturalHeight-diff)/img.naturalHeight;
+        percent *= 100;
+        $("#imagemap").css("height", percent+"%");
+    }
 
 //    $("#picture").css("transform", "scale(" + widthRatio + ", " + heightRatio + ")");
-    $("#imagemap").css("transform", "scale(" + widthRatio + ", " + heightRatio + ")");
+//    $("#imagemap").css("transform", "scale(" + widthRatio + ", " + heightRatio + ")");
     $("#nav").imageMapResize();
 }
