@@ -55,7 +55,7 @@ var typingQuiz = function(){
         timeRemaining = 0;
         usedCharArray = new Array();
         
-        currentGame = "typing";
+        currentGame = gameModes.typing;
         document.getElementById("css").href = "css/typingStyle.css";
         
         $("#playAgainBox").click(function(){
@@ -381,10 +381,15 @@ var typingQuiz = function(){
         clearInterval(hudInterval);
         clearInterval(quizInterval);
         clearInterval(scoreInterval);
-        clearInterval(highlightInterval);
+        clearInterval(heartFlasher1);
+        clearInterval(heartFlasher2);
+        clearInterval(heartFlasher3);
         highlightInterval = setInterval(highlight, 1000/60);
 
         $("#playAgainBox").css("visibility", "hidden");
+        $("#heart1").attr("src", "Heart.svg");
+        $("#heart2").attr("src", "Heart.svg");
+        $("#heart3").attr("src", "Heart.svg");
         
         $('#van li').each(function (i, obj) {
             if (i != 0) {

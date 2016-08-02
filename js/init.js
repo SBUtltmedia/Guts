@@ -2,6 +2,12 @@ var currentGame;
 var typing;
 var selector;
 
+var gameModes = new function(){
+    this.typing = 1;
+    this.selector = 2;
+    this.indexCards = 3;
+}
+
 $(function () {
     // Font resize
     var sections = $("#van").children().length;
@@ -36,11 +42,12 @@ $(function () {
     
     typing = new typingQuiz();
     selector = new selectorQuiz();
+    indexCards = new indexCards();
     typing.startGame();
 });
 
 function mouseDown() {
-    if(currentGame == "typing"){
+    if(currentGame == gameModes.typing){
         if (gameActive && !selectorLock) {
             if(currentSelection != 1){
                 if(usedElements[currentSelection] == null){
@@ -55,7 +62,7 @@ function mouseDown() {
              }
          }
      }
-    else if(currentGame == "selector"){
+    else if(currentGame == gameModes.selector){
         if (gameActive) {
             if(currentSelection != 1){
                     if (listElements[currentSelection] == listElements[currentTarget]) {
@@ -82,7 +89,7 @@ function mouseDown() {
 }
 
 function keyDown(event){
-    if(currentGame == "typing"){
+    if(currentGame == gameModes.typing){
         if(event.keyCode === 13){
             if(typing.checkInput($("#textInput").val(), quizTarget)){
                 clearInterval(quizInterval);
@@ -105,14 +112,36 @@ function keyDown(event){
     }
 }
 
-function changeGame(){
-    if(currentGame == "typing"){
+function startIndexCardMode(){
+    if(currentGame == gameModes.typing){
+        typing.changeGame();
+        indexCards.startGame();
+    }
+    else if(currentGame == gameModes.selector){
+        selector.changeGame();
+        indexCards.startGame();
+    }
+}
+
+function startTypingGame(){
+    if(currentGame == gameModes.selector){
+        selector.changeGame();
+        typing.startGame();
+    }
+    else if(currentGame == gameModes.indexCards){
+        indexCards.changeGame();
+        typing.startGame();
+    }
+}
+
+function startSelectorGame(){
+    if(currentGame == gameModes.typing){
         typing.changeGame();
         selector.startGame();
     }
-    else{
-        selector.changeGame();
-        typing.startGame();
+    else if(currentGame == gameModes.indexCards){
+        indexCards.changeGame();
+        selector.startGame();
     }
 }
 

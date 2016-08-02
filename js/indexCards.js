@@ -11,7 +11,7 @@ var listElements = [];
 var usedElements = [];
 
 //Hud update strings
-var beginText = "Please make a selection.";
+var beginText= "Hover over a piece of the image to see the name.";
 var correctText = "Correct!";
 var wrongText = "Wrong!";
 var currentTargetText = "Your current target is: ";
@@ -19,7 +19,7 @@ var currentTargetText = "Your current target is: ";
 var gameOverText = "Game Over!";
 var finalScoreText = "Your final score is: ";
 
-function selectorQuiz(){    
+function indexCards(){    
     this.startGame = function () {
         gameActive = true;
         health = 3;
@@ -27,30 +27,20 @@ function selectorQuiz(){
         listElements = [];
         usedElements = [];
 
-        beginText = "Please make a selection.";
+        beginText = "Hover over a piece of the image to highlight the name on the left";
         correctText = "Correct!";
         wrongText = "Wrong!";
         currentTargetText = "Your current target is: ";
         gameOverText = "Game Over!";
         finalScoreText = "Your final score is: ";
         
-        currentGame = gameModes.selector;
-        document.getElementById("css").href = "css/selectorStyle.css";
+        currentGame = gameModes.indexCards;
+        document.getElementById("css").href = "css/indexCardStyle.css";
       
         $("#playAgainBox").click(function(){
             resetGame();
         })
-
-        $('#van li').each(function (i, obj) {
-            if (i != 0) {
-                listElements[i + 1] = obj.textContent;
-                obj.textContent = "";
-            }
-        });
-
-        currentTarget = getRandomInt(2, listElements.length);
-        updateQuizDisplay(currentTargetText + listElements[currentTarget]);
-        updateScoreDisplay();
+        
         staticHud(beginText);   
     }
 
@@ -171,12 +161,6 @@ function selectorQuiz(){
         $("#heart1").attr("src", "Heart.svg");
         $("#heart2").attr("src", "Heart.svg");
         $("#heart3").attr("src", "Heart.svg");
-        
-        $('#van li').each(function (i, obj) {
-            if (i != 0) {
-                obj.textContent = listElements[i+1];
-            }
-        });
         listElements = [];
     }
     

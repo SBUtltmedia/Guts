@@ -17,6 +17,33 @@ ul {
     border: 0px;
 }
 
+#buttonBox{
+    text-align: center;
+    line-height: 200%;
+    background-color: #3a3a3a;
+    color: white;
+    display: block;
+    border: solid 2px black;
+    width: 50%;
+    height: 5%;
+    left: 24.75%;
+    top: 93%;
+    position: absolute;
+}
+
+#typingGameButton, #selectorGameButton{
+    position: relative;
+    top:0%;
+}
+
+#typingGameButton{
+    left: 0%;
+}
+
+#selectorGameButton{
+    left: 0%;
+}
+
 #picture{
     width: 100%;
     height: 100%;
