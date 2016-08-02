@@ -90,7 +90,7 @@ function mouseDown() {
 
 function keyDown(event){
     if(currentGame == gameModes.typing){
-        if(event.keyCode === 13){
+        if(selectorLock && gameActive && event.keyCode === 13){
             if(typing.checkInput($("#textInput").val(), quizTarget)){
                 clearInterval(quizInterval);
                 clearInterval(scoreInterval);
