@@ -43,7 +43,7 @@ $(function () {
     typing = new typingQuiz();
     selector = new selectorQuiz();
     indexCards = new indexCards();
-    typing.startGame();
+    indexCards.startGame();
 });
 
 function mouseDown() {
