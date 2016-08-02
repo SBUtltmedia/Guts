@@ -44,6 +44,7 @@ $(function () {
     selector = new selectorQuiz();
     indexCards = new indexCards();
     indexCards.startGame();
+    resizeWindow();
 });
 
 function mouseDown() {
@@ -193,4 +194,21 @@ function popmousefunctions() {
             deselect()
         }
     }
+}
+
+function sendTestAJAX(){
+    var myObject = new Object();
+        myObject.name = "TLT Media Lab";
+        myObject.memes = ["Coconut Gun", "PogChamp", "PHP"];
+    sendData(myObject);
+}
+
+function sendData(payload) {
+    $.ajax({
+        method: "POST"
+        , url: "injest.php"
+        , data:JSON.stringify(payload)
+    }).done(function (msg) {
+        alert("Data Saved: " + msg);
+    });
 }
