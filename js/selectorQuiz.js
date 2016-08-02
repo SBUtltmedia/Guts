@@ -145,7 +145,7 @@ function selectorQuiz(){
 
     }
 
-    var endGame = function () {
+    this.endGame = function () {
         gameActive = false;
         clearInterval(hudInterval);
         updateQuizDisplay(gameOverText);
