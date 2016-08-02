@@ -1,41 +1,62 @@
+//CONSTANTS
+var beginText = "Please make a selection.";
+var correctText = "Correct!";
+var wrongText = "Wrong!";
+var tooSlowText = "Too Slow!";
+var possibleScoreText = "Possible points: ";
+var earnedScoreText1 = "You earned ";
+var earnedScoreText2 = " points!";
+var guessText = "Guess: ";
+//var gameOverText = "G A M E  O ウ E R! GAME  OウER! GAME OVER! GAME OVER! GAME OVER! GAME OVER!";
+var gameOverText = "Game Over!";
+var finalScoreText = "Your final score is: ";
+var listElements = [];
+var usedElements = [];
+
+//GLOBALS
+var gameActive = true;
+var health = 3;
+var score = 0;
+var heartFlasher1;
+var heartFlasher2;
+var heartFlasher3;
+var hudInterval;
+var quizInterval;
+var scoreInterval;
+var selectorLock;
+var quizTarget;
+var targetIndex;
+
+var totalTime = 0;
+var timeRemaining = 0;
+var usedCharArray = new Array();
+
 var typingQuiz = function(){
-    //CONSTANTS
-    var beginText = "Please make a selection.";
-    var correctText = "Correct!";
-    var wrongText = "Wrong!";
-    var tooSlowText = "Too Slow!";
-    var possibleScoreText = "Possible points: ";
-    var earnedScoreText1 = "You earned ";
-    var earnedScoreText2 = " points!";
-    var guessText = "Guess: ";
-    //var gameOverText = "G A M E  O ウ E R! GAME  OウER! GAME OVER! GAME OVER! GAME OVER! GAME OVER!";
-    var gameOverText = "Game Over!";
-    var finalScoreText = "Your final score is: ";
-
-    //GLOBALS
-    var gameActive = true;
-    var health = 3;
-    var score = 0;
-    var listElements = [];
-    var usedElements = [];
-    var heartFlasher1;
-    var heartFlasher2;
-    var heartFlasher3;
-    var hudInterval;
-    var quizInterval;
-    var scoreInterval;
-    var selectorLock;
-    var quizTarget;
-    var targetIndex;
-
-    //Hud update strings
-
-
-    var totalTime = 0;
-    var timeRemaining = 0;
-    var usedCharArray = new Array();
-
     this.startGame = function () {
+        //CONSTANTS
+        beginText = "Please make a selection.";
+        correctText = "Correct!";
+        wrongText = "Wrong!";
+        tooSlowText = "Too Slow!";
+        possibleScoreText = "Possible points: ";
+        earnedScoreText1 = "You earned ";
+        earnedScoreText2 = " points!";
+        guessText = "Guess: ";
+        gameOverText = "Game Over!";
+        finalScoreText = "Your final score is: ";
+        listElements = [];
+        usedElements = [];
+
+        gameActive = true;
+        health = 3;
+        score = 0;
+
+        totalTime = 0;
+        timeRemaining = 0;
+        usedCharArray = new Array();
+        
+        currentGame = gameModes.typing;
+        document.getElementById("css").href = "css/typingStyle.css";
         
         $("#playAgainBox").click(function(){
             resetGame();
@@ -51,49 +72,10 @@ var typingQuiz = function(){
         updateScoreDisplay();
         staticHud(beginText);
 
-        window.addEventListener("mousedown", mouseDown);
-        window.addEventListener("keypress", keyDown);
-    }
-    
-    function mouseDown() {
-        if (gameActive && !selectorLock) {
-            if(currentSelection != 1){
-                if(usedElements[currentSelection] == null){
-                    clearInterval(highlightInterval);
-                    beginIRCQuiz(currentSelection, listElements[currentSelection]);
-                    usedElements[currentSelection] = 1;
-
-                    setTimeout(function(){
-                        $("#textInput").get(0).focus();
-                    }, 1);
-                 }
-             }
-         }
-     }
         
-    function keyDown(event){
-        if(event.keyCode === 13){
-            if(checkInput($("#textInput").val(), quizTarget)){
-                clearInterval(quizInterval);
-                clearInterval(scoreInterval);
-                updateHud(earnedScoreText1 + calculatePossibleScore() + earnedScoreText2);
-                calculateScore();
-                updateScoreDisplay();
-                document.getElementById(targetIndex).textContent = quizTarget;
-                highlightInterval = setInterval(highlight, 1000/60);
-
-                checkAvailableChoices();
-                selectorLock = false;
-            } else{
-                updateHud(wrongText);
-                takeDamage();
-            }
-
-            $("#textInput").val("");
-        }
     }
 
-    var checkAvailableChoices = function(){
+    this.checkAvailableChoices = function(){
         for (var i = 2; i < listElements.length; i++) {
             if (usedElements[i] != 1) {
                 break;
@@ -104,7 +86,7 @@ var typingQuiz = function(){
         }
     }
 
-    var checkInput = function(input, target){
+    this.checkInput = function(input, target){
         input = input.toLowerCase();
         target = target.toLowerCase();
         if (input == target){
@@ -115,7 +97,7 @@ var typingQuiz = function(){
         }
     }
 
-    var calculateScore = function(){
+    this.calculateScore = function(){
         var val = Math.round((timeRemaining/totalTime)*100);
         if(val >= 0){
             score += val;
@@ -133,8 +115,18 @@ var typingQuiz = function(){
             return 0;
         }
     }
+    
+    this.calculatePossibleScore = function(){
+        var val = Math.round((timeRemaining/totalTime)*100);
+        if (val >= 0){
+            return val;
+        }
+        else{
+            return 0;
+        }
+    }
 
-    var beginIRCQuiz = function(index, string){
+    this.beginIRCQuiz = function(index, string){
         selectorLock = true;
         usedCharArray = new Array();
 
@@ -266,6 +258,15 @@ var typingQuiz = function(){
             endGame();
         }
     }
+    
+    this.takeDamage = function(){
+        beginHeartFlash(health);
+        --health;
+
+        if(health <= 0){
+            endGame();
+        }
+    }
 
     var animCharArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     var getNextAnimationChar = function(char){
@@ -293,18 +294,18 @@ var typingQuiz = function(){
         if(heartIndex === 3){
             heartFlasher3 = setInterval(function(){
                 if (i < 4){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                 }
                 else if(i >= 15){
                     i=0;
                     ++j;
                 }
                 else{
-                    $('#heart' + heartIndex).attr("src", "../Heart.svg");
+                    $('#heart' + heartIndex).attr("src", "Heart.svg");
                 }
 
                 if(j === 7){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                     clearInterval(heartFlasher3);
                 }
 
@@ -314,18 +315,18 @@ var typingQuiz = function(){
         else if (heartIndex === 2){
             heartFlasher2 = setInterval(function(){
                 if (i < 4){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                 }
                 else if(i >= 15){
                     i=0;
                     ++j;
                 }
                 else{
-                    $('#heart' + heartIndex).attr("src", "../Heart.svg");
+                    $('#heart' + heartIndex).attr("src", "Heart.svg");
                 }
 
                 if(j === 7){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                     clearInterval(heartFlasher2);
                 }
 
@@ -335,18 +336,18 @@ var typingQuiz = function(){
         else{
             heartFlasher1 = setInterval(function(){
                 if (i < 4){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                 }
                 else if(i >= 15){
                     i=0;
                     ++j;
                 }
                 else{
-                    $('#heart' + heartIndex).attr("src", "../Heart.svg");
+                    $('#heart' + heartIndex).attr("src", "Heart.svg");
                 }
 
                 if(j === 7){
-                    $('#heart' + heartIndex).attr("src", "../HeartContainer.svg");
+                    $('#heart' + heartIndex).attr("src", "HeartContainer.svg");
                     clearInterval(heartFlasher1);
                 }
 
@@ -368,10 +369,33 @@ var typingQuiz = function(){
         highlightInterval = setInterval(highlight, 1000/60);
         $('#playAgainBox').css("visibility", "visible");
         $('#playAgainBox').css("pointer-events", "all");
-        window.removeEventListener("mousedown", mouseDown);
-        window.removeEventListener("keypress", keyDown);
         
         staticHud(finalScoreText + score);
+    }
+    
+    this.changeGame = function (){
+        gameActive = false;
+        timeRemaining = 0;
+        totalTime = 0;
+        
+        clearInterval(hudInterval);
+        clearInterval(quizInterval);
+        clearInterval(scoreInterval);
+        clearInterval(heartFlasher1);
+        clearInterval(heartFlasher2);
+        clearInterval(heartFlasher3);
+        highlightInterval = setInterval(highlight, 1000/60);
+
+        $("#playAgainBox").css("visibility", "hidden");
+        $("#heart1").attr("src", "Heart.svg");
+        $("#heart2").attr("src", "Heart.svg");
+        $("#heart3").attr("src", "Heart.svg");
+        
+        $('#van li').each(function (i, obj) {
+            if (i != 0) {
+                obj.textContent = listElements[i+1];
+            }
+        });
     }
 
     var resetGame = function () {
@@ -394,12 +418,9 @@ var typingQuiz = function(){
         
         $("#playAgainBox").css("visibility", "hidden");
         $('#playAgainBox').css("pointer-events", "none");
-        $("#heart1").attr("src", "../Heart.svg");
-        $("#heart2").attr("src", "../Heart.svg");
-        $("#heart3").attr("src", "../Heart.svg");        
-        
-        window.addEventListener("mousedown", mouseDown);
-        window.addEventListener("keypress", keyDown);
+        $("#heart1").attr("src", "Heart.svg");
+        $("#heart2").attr("src", "Heart.svg");
+        $("#heart3").attr("src", "Heart.svg");        
         
         updateScoreDisplay();
         staticHud(beginText);
@@ -412,9 +433,45 @@ var typingQuiz = function(){
     var updateScoreDisplay = function () {
         $('#scoreDisplay').html("Score: " + score);
     }
+    
+    this.updateScoreDisplay = function () {
+        $('#scoreDisplay').html("Score: " + score);
+    }
 
     //Sends a message to be displayed on the hud, goes away after two seconds
     var updateHud = function (inputString) {
+        clearInterval(hudInterval);
+
+        var i = 0;
+        var displayString = "";
+        var waitTime = 20;
+        var passTime = 10;
+        hudInterval = setInterval(function(){
+            if(waitTime === 20){
+                displayString += inputString.charAt(0);
+                $('#hud').html(displayString);
+                inputString = inputString.substr(1, inputString.length);
+            }
+
+            if(inputString == ""){
+                --waitTime;
+            }
+
+            if(waitTime <= 0){
+                displayString = displayString.substr(0, displayString.length-1);
+                $('#hud').html(displayString);
+
+                if(displayString == ""){
+                    if(passTime <= 0){
+                        staticHud(beginText);
+                    }
+                    --passTime;
+                }
+            }
+        }, 1000/15);
+    }
+    
+    this.updateHud = function (inputString) {
         clearInterval(hudInterval);
 
         var i = 0;

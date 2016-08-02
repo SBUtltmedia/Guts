@@ -17,6 +17,33 @@ ul {
     border: 0px;
 }
 
+#buttonBox{
+    text-align: center;
+    line-height: 200%;
+    background-color: #3a3a3a;
+    color: white;
+    display: block;
+    border: solid 2px black;
+    width: 50%;
+    height: 5%;
+    left: 24.75%;
+    top: 93%;
+    position: absolute;
+}
+
+#typingGameButton, #selectorGameButton{
+    position: relative;
+    top:0%;
+}
+
+#typingGameButton{
+    left: 0%;
+}
+
+#selectorGameButton{
+    left: 0%;
+}
+
 #picture{
     width: 100%;
     height: 100%;
@@ -26,8 +53,12 @@ ul {
 /*    background-size: 100%;*/
 /*    background-repeat: no-repeat;*/
     width: 100%;
-    height: 94%;
+    height: 100%;
     transform-origin: 0 0;
+}
+
+#quizDisplay, #quizDisplayBox{
+    visibility: hidden;
 }
 
 #hudDisplayBox{
@@ -56,6 +87,7 @@ ul {
     left: 37.25%;
     top: 15.25%;
     position: absolute;
+    visibility: hidden;
 }
 
 #scoreDisplay{
@@ -77,6 +109,7 @@ ul {
     left: 12.25%;
     top: 82.25%;
     position: absolute;
+    visibility: hidden;
 }
 
 #guessText{
@@ -103,6 +136,7 @@ ul {
     left: 62.25%;
     top: 82.25%;
     position: absolute;
+    visibility: hidden;
 }
 
 #heart1, #heart2, #heart3{
@@ -216,6 +250,9 @@ li:hover {
     left: 55%;
     top: 23.333%;
     position: absolute;
+    background: url(../layer-1.png);
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 #van {
