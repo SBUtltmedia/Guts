@@ -207,7 +207,7 @@ function sendData(payload) {
     $.ajax({
         method: "POST"
         , url: "injest.php"
-        , data:JSON.stringify(payload)
+        , data:payload
     }).done(function (msg) {
         alert("Data Saved: " + msg);
     });
