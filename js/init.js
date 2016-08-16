@@ -23,7 +23,6 @@ $(function () {
         $("#playAgainBox").css("background-color", "#3a3a3a");
     });
     
-    resizeWindow();
     vanRoot = document.getElementById("van");
     navRoot = document.getElementById("nav");
     for (i = 0; i < navRoot.childNodes.length; i++) {

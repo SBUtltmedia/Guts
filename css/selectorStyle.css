@@ -264,9 +264,10 @@ li:hover {
     left: 55%;
     top: 23.333%;
     position: absolute;
-    background: url(../layer-1.png);
     background-size: contain;
+    -webkit-background-size: contain;
     background-repeat: no-repeat;
+    background-image: url(../layer-1.png);
 }
 
 #van {
