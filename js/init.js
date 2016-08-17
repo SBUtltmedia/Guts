@@ -31,7 +31,6 @@ function userDataSetup(){
 }
 
 $(function () {
-    userDataSetup();
     loadUserData();
     
     // Font resize
@@ -233,9 +232,16 @@ function popmousefunctions() {
 }
 
 function loadUserData(){
-    userData = JSON.parse($.ajax({
-      method: "GET",
-      url: "ingest.php"}));
+    $.ajax({
+        method: "GET",
+        url: "ingest.php",
+        dataType: "json"}).done(function(data){
+        userData = data;
+    });
+    if(userData.logons == null){
+        userData = new Object();
+        userDataSetup();
+    }
     ++userData.logons;
 }
 
