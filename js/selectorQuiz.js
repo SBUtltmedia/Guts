@@ -153,6 +153,15 @@ function selectorQuiz(){
         $('#playAgainBox').css("visibility", "visible");
         $('#playAgainBox').css("pointer-events", "all");
     }
+	
+	var endGame = function () {
+        gameActive = false;
+        clearInterval(hudInterval);
+        updateQuizDisplay(gameOverText);
+        staticHud(finalScoreText + score);
+        $('#playAgainBox').css("visibility", "visible");
+        $('#playAgainBox').css("pointer-events", "all");
+    }
 
     this.changeGame = function (){
         gameActive = false;

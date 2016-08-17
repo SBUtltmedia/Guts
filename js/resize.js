@@ -111,7 +111,9 @@ function resizeWindow() {
         });
     }
     
+
 	//Resize rightnav
+/*
     var targetWidth = stageWidth*0.4;
     var targetHeight = stageHeight*0.533333;
     var aspectRatio = targetWidth/targetHeight;    
@@ -129,6 +131,7 @@ function resizeWindow() {
         percent *= 100;
         $("#imagemap").css("height", percent+"%");
     }
+*/
 
     $("#nav").imageMapResize();
 }
