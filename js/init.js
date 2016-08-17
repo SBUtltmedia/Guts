@@ -249,7 +249,7 @@ function saveUserData(){
     $.ajax({
         method: "POST"
         , url: "ingest.php"
-        , data:userData
+        , data:JSON.stringify(userData)
     }).done(function (msg) {
     });
 }

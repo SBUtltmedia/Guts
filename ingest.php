@@ -3,9 +3,6 @@ $netID  = $_SERVER['cn'];
 $path="data/$netID"; 
 
 if(!empty($_POST)){
-	if (!file_exists($path)){
-		mkdir($path, 0777, true);
-	}
     file_put_contents($path.".json",$_POST);
 }
 else{
