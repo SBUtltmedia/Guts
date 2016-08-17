@@ -70,9 +70,7 @@ var typingQuiz = function(){
         });
 
         updateScoreDisplay();
-        staticHud(beginText);
-
-        
+        staticHud(beginText);        
     }
 
     this.checkAvailableChoices = function(){
@@ -81,6 +79,14 @@ var typingQuiz = function(){
                 break;
             }
             if (i == listElements.length - 1) {
+                userData.typingQuizData.complete = true;
+                ++userData.typingQuizData.attempts;
+                ++userData.typingQuizData.wins;
+                if(score > userData.typingQuizData.highScore){
+                    userData.typingQuizData.highScore = score;
+                }
+                userData.typingQuizData.scores[userData.typingQuizData.scores.length] = score;
+                sendUserData();
                 endGame();
             }
         }
@@ -255,6 +261,13 @@ var typingQuiz = function(){
         --health;
 
         if(health <= 0){
+            ++userData.typingQuizData.attemps;
+            ++userData.typingQuizData.losses;
+            if(score > userData.typingQuizData.highScore){
+                userData.typingQuizData.highScore = score;
+            }
+            userData.typingQuizData.scores[userData.typingQuizData.scores.length] = score;
+            saveUserData();
             endGame();
         }
     }
@@ -264,6 +277,13 @@ var typingQuiz = function(){
         --health;
 
         if(health <= 0){
+            ++userData.typingQuizData.attemps;
+            ++userData.typingQuizData.losses;
+            if(score > userData.typingQuizData.highScore){
+                userData.typingQuizData.highScore = score;
+            }
+            userData.typingQuizData.scores[userData.typingQuizData.scores.length] = score;
+            saveUserData();
             endGame();
         }
     }

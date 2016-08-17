@@ -60,6 +60,14 @@ function selectorQuiz(){
                 break;
             }
             if (i == listElements.length - 1) {
+                userData.selectorQuizData.complete = true;
+                ++userData.selectorQuizData.attempts;
+                ++userData.selectorQuizData.wins;
+                if(score > userData.selectorQuizData.highScore){
+                    userData.selectorQuizData.highScore = score;
+                }
+                userData.selectorQuizData.scores[userData.selectorQuizData.scores.length] = score;
+                saveUserData();
                 endGame();
             }
         }

@@ -8,7 +8,32 @@ var gameModes = new function(){
     this.indexCards = 3;
 }
 
+var userData = new Object();
+function userDataSetup(){
+    userData.logons = 0;
+    userData.typingQuizData = new Obect();
+    userData.typingQuizData.complete = false;
+    userData.typingQuizData.attempts = 0;
+    userData.typingQuizData.wins = 0;
+    userData.typingQuizData.losses = 0;
+    userData.typingQuizData.highScore = 0;
+    userData.typingQuizData.scores = new Array();
+    userData.typingQuizData.missCount = new Array();
+    
+    userData.selectorQuizData = new Object();
+    userData.selectorQuizData.complete = false;
+    userData.selectorQuizData.attempts = 0;
+    userData.selectorQuizData.wins = 0;
+    userData.selectorQuizData.losses = 0;
+    userData.selectorQuizData.highScore = 0;
+    userData.selectorQuizData.scores = new Array();
+    userData.selectorQuizData.missCount = new Array();
+}
+
 $(function () {
+    userDataSetup();
+    loadUserData();
+    
     // Font resize
     var sections = $("#van").children().length;
     var size = Math.floor(256/sections);
@@ -23,7 +48,6 @@ $(function () {
         $("#playAgainBox").css("background-color", "#3a3a3a");
     });
     
-    resizeWindow();
     vanRoot = document.getElementById("van");
     navRoot = document.getElementById("nav");
     for (i = 0; i < navRoot.childNodes.length; i++) {
@@ -66,26 +90,36 @@ function mouseDown() {
     else if(currentGame == gameModes.selector){
         if (gameActive) {
             if(currentSelection != 1){
-                    if (listElements[currentSelection] == listElements[currentTarget]) {
-                        selector.updateHud(correctText);
-                        ++score;
+                if (listElements[currentSelection] == listElements[currentTarget]) {
+                    selector.updateHud(correctText);
+                    ++score;
 
-                        document.getElementById(currentSelection).textContent =     listElements[currentSelection];
-                        usedElements[currentTarget] = 1;
-                        selector.chooseNextTarget();
-                        selector.updateScoreDisplay();
-                    } 
-                  else {
-                      selector.updateHud(wrongText);
-                      selector.beginHeartFlash(health);
-                      --health;
-                  }
+                    document.getElementById(currentSelection).textContent =     listElements[currentSelection];
+                    usedElements[currentTarget] = 1;
+                    selector.chooseNextTarget();
+                    selector.updateScoreDisplay();
+                } 
+                else {
+                    selector.updateHud(wrongText);
+                    selector.beginHeartFlash(health);
+                    --health;
+                      
+                    userData.selectorQuizData.missCount[currentTarget] =  ++userData.selectorQuizData.missCount[currentTarget] || 1;
+                }
                   
-                    if(health <= 0){
-                      selector.endGame();
-                  }
-              }
-          }
+                if(health <= 0){
+                    ++userData.selectorQuizData.attempts;
+                    ++userData.selectorQuizData.losses;
+                    if(score > userData.selectorQuizData.highScore){
+                        userData.selectorQuizData.highScore = score;
+                    }
+                    userData.selectorQuizData.scores[userData.selectorQuizData.scores.length] = score;
+                    saveUserData();
+                    
+                    selector.endGame();
+                }
+            }
+        }
     }   
 }
 
@@ -106,6 +140,8 @@ function keyDown(event){
             } else{
                 typing.updateHud(wrongText);
                 typing.takeDamage();
+                
+                userData.typingQuizData.missCount[currentSelection] = ++userData.typingQuizData.missCount[currentSelection] || 1;
             }
 
             $("#textInput").val("");
@@ -196,19 +232,18 @@ function popmousefunctions() {
     }
 }
 
-function sendTestAJAX(){
-    var myObject = new Object();
-        myObject.name = "TLT Media Lab";
-        myObject.memes = ["Coconut Gun", "PogChamp", "PHP"];
-    sendData(myObject);
+function loadUserData(){
+    userData = JSON.parse($.ajax({
+      method: "GET",
+      url: "ingest.php"}));
+    ++userData.logons;
 }
 
-function sendData(payload) {
+function saveUserData(){
     $.ajax({
         method: "POST"
         , url: "ingest.php"
-        , data:payload
+        , data:userData
     }).done(function (msg) {
-        alert("Data Saved: " + msg);
     });
 }
