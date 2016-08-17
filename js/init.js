@@ -11,7 +11,7 @@ var gameModes = new function(){
 var userData = new Object();
 function userDataSetup(){
     userData.logons = 0;
-    userData.typingQuizData = new Obect();
+    userData.typingQuizData = new Object();
     userData.typingQuizData.complete = false;
     userData.typingQuizData.attempts = 0;
     userData.typingQuizData.wins = 0;
