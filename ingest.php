@@ -10,6 +10,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     file_put_contents($path.$fileName,file_get_contents("php://input"));
 }
 else{
-    print(file_get_contents($path.$fileName));
+    $content = file_get_contents($path.$fileName);
+	if($content == FALSE){
+		print("0");
+	}
+	else{
+		print($content);
+	}
 }
 ?>

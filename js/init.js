@@ -237,7 +237,7 @@ function loadUserData(){
         , url: "ingest.php"
         , dataType: "json"}).done(function(data){
         userData = data;
-    	if(userData.logons == null){
+    	if(data == "0"){
         	userData = new Object();
        	 	userDataSetup();
     	}
