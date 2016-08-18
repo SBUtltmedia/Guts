@@ -233,23 +233,27 @@ function popmousefunctions() {
 
 function loadUserData(){
     $.ajax({
-        method: "GET",
-        url: "ingest.php",
-        dataType: "json"}).done(function(data){
+        method: "GET"
+        , url: "ingest.php"
+        , dataType: "json"}).done(function(data){
         userData = data;
+    	if(userData.logons == null){
+        	userData = new Object();
+       	 	userDataSetup();
+    	}
+    	++userData.logons;
+		saveUserData();
     });
-    if(userData.logons == null){
-        userData = new Object();
-        userDataSetup();
-    }
-    ++userData.logons;
 }
 
 function saveUserData(){
     $.ajax({
         method: "POST"
+		, type: "POST"
         , url: "ingest.php"
-        , data:JSON.stringify(userData)
+        , data: JSON.stringify(userData)
+		, dataType: "json"
     }).done(function (msg) {
+		console.log(msg);
     });
 }
