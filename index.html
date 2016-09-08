@@ -1,5 +1,6 @@
 <!DOCTYPE html><html><head><!-- compliance patch for microsoft browsers -->
 <!--[if lt IE 7]><script src="ie7-standard-p.js" type="text/javascript"></script><![endif]-->
+    <link rel="stylesheet" id="masterCss" type="text/css" href="css/masterStyle.css">
     <link rel="stylesheet" id="css" type="text/css" href="css/indexCardStyle.css">
     <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>     <script src="css_browser_selector.js"></script>
     <script src="js/vendor/jquery.js"></script>
@@ -13,10 +14,9 @@
 	 <div id="stage" class="screen">
         
         <div id="buttonBox">
-            <button type="button" id="indexCardButton" onclick="startIndexCardMode()">Start Index Card Mode</button>
-            <button type="button" id="typingGameButton" onclick="startTypingGame()">Start Typing Game</button>
-            <button type="button" id="selectorGameButton" onclick="startSelectorGame()">Start Selector Game</button>
-            <button type="button" id="testAJAXButton" onclick="saveUserData()">Save user data</button>
+            <button class="button fs-15" type="button" id="indexCardButton" onclick="startIndexCardMode()">Start Index Card Mode</button>
+            <button class="button fs-15" type="button" id="typingGameButton" onclick="startTypingGame()">Start Typing Game</button>
+            <button class="button fs-15" type="button" id="selectorGameButton" onclick="startSelectorGame()">Start Selector Game</button>
         </div>
         
         <div id="quizDisplayBox">

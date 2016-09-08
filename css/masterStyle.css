@@ -1,0 +1,268 @@
+ul {
+    border: solid black 0px;
+    width: 206px;
+    list-style-type: none;
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.ie #picture,
+.ie #picpic {
+    margin: 58px 0px 0px 48px;
+    position: absolute;
+    top: 27px;
+    left: 208px;
+    border: 0px;
+}
+
+#buttonBox{
+    text-align: center;
+    line-height: 200%;
+    background-color: #3a3a3a;
+    color: white;
+    display: block;
+    border: solid 2px black;
+    width: 50%;
+    height: 5%;
+    left: 24.75%;
+    top: 93%;
+    position: absolute;
+}
+
+#typingGameButton, #selectorGameButton{
+    position: relative;
+    top:0%;
+}
+
+#typingGameButton{
+    left: 0%;
+}
+
+#selectorGameButton{
+    left: 0%;
+}
+
+#picture{
+    width: 100%;
+    height: 100%;
+}
+
+#leftnav {
+    width: 40%;
+    height: 53.3333%;
+    left: 5%;
+    top: 23.333%;
+    position: absolute;
+}
+
+#van {
+    width: 100%;
+    height: 100%;
+    left: 0%;
+    top: 0%;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+}
+
+
+li {
+    text-align: center;
+    font-family: 'Inconsolata';
+    line-height: 200%;
+    color: white;
+    display: block;
+    border-radius: 50%;
+	border: 1px solid black;
+	-moz-border-radius: 50%; 
+	-webkit-border-radius: 50px; 
+    list-style-type: none;
+    margin: 0.5%;
+    padding: 0px;
+    cursor: pointer;
+	background-color: #3a3a3a;
+}
+
+#hud{
+    position: relative;
+    font-family: 'Inconsolata';
+    top: 50%;
+    transform: translateY(-50%);
+	font-size: 15%;
+}
+
+#scoreDisplay{
+    position: relative;
+    font-family: 'Inconsolata';
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#guessText{
+    position: relative;
+    font-family: 'Inconsolata';
+    top: 50%;
+    left: 2.5%;
+    transform: translateY(-50%);
+}
+
+#playAgainText{
+    position: relative;
+    font-family: 'Inconsolata';
+    top: 45%;
+    transform: translateY(-50%);
+}
+
+#textInput{
+    font-family: 'Inconsolata';
+}
+
+#buttonBox{
+    text-align: center;
+    line-height: 250%;
+    background-color: #3a3a3a;
+    color: white;
+    display: block;
+    border: solid 1px black;
+    width: 40%;
+    height: auto;
+    left: 30%;
+    top: 90%;
+    position: absolute;
+	margin: 1%;
+}
+
+.button {
+	background-color: #3a3a3a;
+	color: white;
+	border: none;
+	font-family: 'Inconsolata';
+	margin: 1%;
+	border: white 1px solid;
+	border-radius: 50%;
+	-moz-border-radius: 50%; 
+	-webkit-border-radius: 50px;
+}
+
+.button:hover{
+	/*text-decoration: underline;*/
+	border: white 1px solid;
+	border-radius: 50%;
+	-moz-border-radius: 50%; 
+	-webkit-border-radius: 50px;
+	background-color: #4e2a7f;
+}
+
+
+#typingGameButton, #selectorGameButton{
+    position: relative;
+    top:0%;
+}
+
+#typingGameButton{
+    left: 0%;
+}
+
+#selectorGameButton{
+    left: 0%;
+}
+
+#picture{
+    width: 100%;
+    height: 100%;
+	/*border-radius: 50%;*/
+	/*border: 1px solid black;*/
+	/*-moz-border-radius: 50%; 
+	-webkit-border-radius: 50px;
+	border-top-left-radius: 50% 50%;
+	border-top-right-radius: 50% 50%;
+	border-bottom-right-radius: 50% 50%;
+	border-bottom-left-radius: 50% 50%;
+	overflow: hidden;*/
+}
+
+#imagemap {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    transform-origin: 0 0;
+	background-color: #98AFC7;
+	/*border-top-left-radius: 50% 50%;
+	border-top-right-radius: 50% 50%;
+	border-bottom-right-radius: 50% 50%;
+	border-bottom-left-radius: 50% 50%;
+	overflow: hidden;*/
+	padding-top: 0%;
+}
+
+#heart1, #heart2, #heart3{
+    height: 0%;
+    transform-origin: 0 0;
+    top: 2.5%;
+    position: absolute;
+    visibility: hidden;
+}
+
+#heart1{
+    left: 8.75%;
+}
+
+#heart2{
+    left: 41.75%;
+}
+
+#heart3{
+    left: 74.75%;
+}
+
+.ie #outer {
+    padding: 0px;
+    margin: 0px;
+    background-color: #4e2a7f;
+    border: solid 40px #efedb3;
+}
+
+#outer {
+    padding: 0px;
+    margin: 0px;
+    background-color: #4e2a7f;
+    border: solid 40px #efedb3;
+}
+
+#memes {
+    transform-origin: 0 0;
+    transform: scale(1.75);
+    pointer-events: none;
+}
+
+#stage {
+    background-color: #98AFC7;
+    position: absolute;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+}
+
+#rightnav {
+    width: 40%;
+    height: 53.3333%;
+    left: 55%;
+    top: 23.333%;
+    position: absolute;
+    background-size: contain;
+    -webkit-background-size: contain;
+    background-repeat: no-repeat;
+	margin-top: 0%;
+	background-color: #98AFC7;
+	/*border: 50%;
+	-moz-border-radius: 50%; 
+	-webkit-border-radius: 50px;
+	border-top-left-radius: 50% 50%;
+	border-top-right-radius: 50% 50%;
+	border-bottom-right-radius: 50% 50%;
+	border-bottom-left-radius: 50% 50%;
+	overflow: hidden;*/
+    /*background-image: url(../layer-1.png);*/
+}
